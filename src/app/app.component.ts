@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { AuthService } from './services/auth.service';
+
 
 @Component({
   selector: 'app-root',
@@ -7,4 +9,11 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'segAngular';
+
+  constructor(private authService: AuthService) { }
+
+  logout(): void {
+    this.authService.logout();
+    window.location.reload();
+  }
 }
