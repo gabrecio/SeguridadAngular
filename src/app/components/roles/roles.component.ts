@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import Swal from 'sweetalert2';
 import { RolModel } from '../../Models/rol.model';
 import { RolesService } from '../../services/roles.service';
+import {NgbPaginationModule} from '@ng-bootstrap/ng-bootstrap';
+import { GenericListModel } from '../../Models/respuesta.models';
 
 
 @Component({
@@ -13,16 +15,13 @@ export class RolesComponent implements OnInit {
 
   roles: RolModel[]= [];
   cargando=false;
-
+  page:number=1;
+  pageSize:number=20;
+  totalItems:number=0;
   constructor(private rolesService: RolesService) { }
 
   ngOnInit() {
-
-    this.cargando=true;
-    this.rolesService.getRoles().subscribe(resp => {
-      this.roles = resp;
-      this.cargando=false;
-    } );
+    this.doSearch();
   }
 
 
@@ -40,6 +39,19 @@ export class RolesComponent implements OnInit {
       }
     });
 
+}
+pageChange(){
+    
+  this.doSearch();
+}
+
+doSearch(){
+  this.cargando=true;
+  this.rolesService.getRoles(this.page).subscribe((resp: GenericListModel) => {
+    this.roles = resp.lista;  
+    this.totalItems = resp.total;
+    this.cargando=false;
+  } );
 }
 
 

@@ -1,10 +1,12 @@
-<h1>Aplicaciones</h1>
-<hr>
 <div class="row">
+    <div class="col text-start">
+        <h3>Aplicaciones</h3>
+    </div>
     <div class="col text-end">
         <button routerLink="/aplicacion/nuevo" class="btn btn-primary">
             <i class="fa fa-plus"></i> Agregar
-        </button></div>
+        </button>
+    </div>
 </div>
 
 <table *ngIf="!cargando && aplicaciones.length!=0" class="table mt-3">
@@ -24,9 +26,12 @@
             <td>
 
                 <div class="dropdown text-end">
-                    <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    <!--  <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="fa fa-cog"></i>
-                </button>
+                    </button> -->
+                    <a class="dropdown-toggle px-2 text-dark" href="#" id="dropdownMenuGrillaUsuario1" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa fa-cog"></i>
+                    </a>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                         <li><a class="dropdown-item" (click)="borrarAplicacion(aplicacion,i)" [routerLink]="['/aplicacion', aplicacion.id]"><i class="fa fa-search-plus" ></i> Consultar</a></li>
                         <li><a class="dropdown-item" (click)="borrarAplicacion(aplicacion,i)" [routerLink]="['/aplicacion', aplicacion.id]"><i class="fa fa-edit" ></i> Editar</a></li>

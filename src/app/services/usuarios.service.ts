@@ -13,6 +13,10 @@ import { Observable } from 'rxjs';
 export class UsuariosService {
   private url= 'http://local.seguridad_api.com/api';
 
+  private headers= new HttpHeaders({
+    'Authorization': 'Bearer ' + localStorage.getItem('token')
+  });
+
   private httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
