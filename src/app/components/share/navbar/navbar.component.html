@@ -25,12 +25,12 @@
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-        <a class="navbar-brand" href="#"> <i class="fa fa-user-secret"></i> Seguridad</a>
-        <div *ngIf="autenticado" class="collapse navbar-collapse" id="navbarTogglerDemo03">
+        <a class="navbar-brand" [routerLink]="['home']"> <i class="fa fa-user-secret"></i> Seguridad</a>
+        <div *ngIf="autenticado  | async as isLoggedIn" class="collapse navbar-collapse" id="navbarTogglerDemo03">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                <li class="nav-item" routerLinkActive="active">
+                <!--    <li class="nav-item" routerLinkActive="active">
                     <a class="nav-link" [routerLink]="['home']">Home</a>
-                </li>
+                </li> -->
                 <li class="nav-item" routerLinkActive="active">
                     <a class="nav-link" [routerLink]="['usuarios']">Usuarios</a>
                 </li>
@@ -51,7 +51,7 @@
                 </li>
             </ul>-->
 
-            <ul class="navbar-nav ml-auto">
+            <ul class="navbar-nav ml-auto" *ngIf="isLoggedIn">
                 <li class="nav-item">
                     <a href="/profile" class="nav-link" routerLink="profile">Usuario</a>
                 </li>

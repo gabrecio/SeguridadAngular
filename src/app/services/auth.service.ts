@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { UserModel } from '../Models/user.models';
 import { map } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 
 
@@ -16,11 +17,11 @@ const httpOptions = {
 })
 
 export class AuthService {
-
+  private loggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   userToken:string="";
 
-  constructor(private http: HttpClient) { 
+  constructor(private http: HttpClient,  private router:Router) { 
     this.leerToken();
   }
 
@@ -28,12 +29,16 @@ export class AuthService {
     //return this.http.post(AUTH_API + '/Usuario/Signin',   usuario , httpOptions);
     return this.http.post(AUTH_API + '/Usuario/Signin',   usuario , httpOptions).pipe(map ( (resp:any)  =>{
       this.guardarToken(resp['token']);
+      this.loggedIn.next(true);
       return resp;
     }))
   }
 
   logout(){
+    this.loggedIn.next(false);
     localStorage.removeItem('token');
+    this.router.navigate(['/login']);
+   // this.router.navigateByUrl('/login');
   }
 
   register(username: string, email: string, password: string): Observable<any> {
@@ -64,7 +69,11 @@ export class AuthService {
     return this.userToken;
   }
 
+  get isLoggedIn() {
+    return this.loggedIn.asObservable();
+  }
 
+/*
   estaAutenticado():boolean{
     if(this.userToken.length < 2 )
     {
@@ -81,6 +90,6 @@ export class AuthService {
     else{
       return false;
     }  
-  }
+  }*/
 
 }
