@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { AplicacionModel } from '../Models/aplicacion.models';
+import { AplicacionModel } from '../models/aplicacion.models';
 import { map, delay } from 'rxjs/operators'
+
+
 
 @Injectable({
   providedIn: 'root'
@@ -11,11 +13,11 @@ export class AplicacionesService {
   constructor(private http: HttpClient) { }
 
 
-  getRol(id: string){
+  getAplicacion(id: string){
     return this.http.get(`${this.url}/aplicacion/${id}`);
   }
 
-  getRoles(){
+  getAplicaciones(){
     return this.http.get(`${this.url}/aplicacion/`).pipe(map(this.crearArreglo), delay(1500));
 
   }

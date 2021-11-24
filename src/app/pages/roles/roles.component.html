@@ -1,0 +1,66 @@
+<div class="row">
+    <div class="col text-start">
+        <h3>Roles</h3>
+    </div>
+    <div class="col text-end">
+        <button routerLink="/rol/nuevo" class="btn btn-primary">
+            <i class="fa fa-plus"></i> Agregar
+        </button></div>
+</div>
+
+<table *ngIf="!cargando && roles.length!=0" class="table table-sm">
+    <thead class="table-dark">
+        <tr>
+            <th>#</th>
+            <th>Códgo</th>
+            <th>Nombre</th>
+            <th>Descripcion</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!--    <tr *ngFor="let rol of roles  | slice: (page-1) * pageSize : page * pageSize; let i=index"> -->
+        <tr *ngFor="let rol of roles; let i=index">
+            <td>{{ ((page-1) * pageSize) + i+1}}</td>
+            <td>{{rol.id}}</td>
+            <td>{{rol.nombre}}</td>
+            <td>{{rol.observaciones}}</td>
+            <td>
+                <div class="dropdown text-end ">
+                    <!--    <button class="btn btn-secondary btn-sm dropdown-toggle " type="button " id="dropdownMenuButton1 " data-bs-toggle="dropdown " aria-expanded="false ">
+                    <i class="fa fa-cog "></i> 
+                    </button>-->
+                    <a class="dropdown-toggle px-2 text-dark" href="#" id="dropdownMenuGrillaRoles1" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa fa-cog"></i>
+                    </a>
+                    <ul class="dropdown-menu " aria-labelledby="dropdownMenuButton1 ">
+                        <li><a class="dropdown-item " [routerLink]="[ '/usuario', rol.id] "><i class="fa fa-search-plus "></i> Consultar</a></li>
+                        <li><a class="dropdown-item " [routerLink]="[ '/usuario', rol.id] "><i class="fa fa-edit "></i> Editar</a></li>
+                        <li><a class="dropdown-item " (click)="borrarRol(rol,i) " [routerLink]="[ '/roles'] " href="# "><i class="fa fa-times-circle text-danger " ></i> Eliminar</a></li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<div *ngIf="!cargando && roles.length>0 ">
+    <ngb-pagination class="d-flex justify-content-center" [(page)]="page" [pageSize]="pageSize" [collectionSize]="totalItems" (pageChange)="pageChange()"></ngb-pagination>
+</div>
+<div *ngIf="!cargando && roles.length===0 " class="alert alert-warning text-center mt-3 ">
+    <h4 class="alert-heading ">No hay registros</h4>
+    <p>
+        <i class="fa fa-exclamation fa-2x "></i>
+    </p>
+    <p class="mb-0 ">
+        Espere por favor
+    </p>
+</div>
+<div *ngIf="cargando " class=" alert alert-info text-center mt-3 ">
+    <h4 class="alert-heading ">Cargando</h4>
+    <p>
+        <i class="fa fa-cog fa-spin fa-3x fa-fw "></i>
+    </p>
+    <p class="mb-0 ">
+        Espere por favor
+    </p>
+</div>

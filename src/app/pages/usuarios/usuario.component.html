@@ -1,0 +1,114 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+
+                <h4 class="card-title">Usuario</h4>
+                <h6 class="card-subtitle">Actualizar información</h6>
+
+                <form autocomplete="off" class="form-horizontal p-t-20" [formGroup]="usuarioForm" (submit)="guardarUsuario()">
+                    <div class="form-group row">
+                        <!--  <label for="exampleInputuname3" class="col-sm-3 control-label">Apellido</label> -->
+                        <div class="col-sm-6">
+                            <label for="exampleInputuname3" class="control-label">Apellido</label>
+                            <div class="input-group">
+                                <div class="input-group-addon"><i class="ti-user"></i></div>
+                                <input type="text" formControlName="apellido" class="form-control" id="exampleInputuname3" placeholder="Apellido">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="exampleInputuname3" class="control-label">Nombre</label>
+                            <div class="input-group">
+                                <div class="input-group-addon"><i class="ti-user"></i></div>
+                                <input type="text" formControlName="nombre" class="form-control" id="exampleInputuname2" placeholder="Nombre">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                            <label for="exampleInputuname3" class="control-label">UserName</label>
+                            <div class="input-group">
+                                <div class="input-group-addon"><i class="ti-user"></i></div>
+                                <input type="text" formControlName="username" class="form-control" id="exampleInputuname5" placeholder="nombre de usuario">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="exampleInputuname3" class="control-label">Email</label>
+                            <div class="input-group">
+                                <div class="input-group-addon"><i class="ti-email"></i></div>
+                                <input type="text" formControlName="mail" class="form-control" id="exampleInputuname4" placeholder="Correo Electronico">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                            <label for="exampleInputuname3" class="control-label">Documento</label>
+                            <div class="input-group">
+                                <div class="input-group-addon"><i class="ti-id-badge"></i></div>
+                                <input type="text" formControlName="documento" class="form-control" id="exampleInputuname5" placeholder="documento">
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="exampleInputuname3" class="control-label">Legajo</label>
+                            <div class="input-group">
+
+                                <input type="text" formControlName="legajo" class="form-control" id="exampleInputuname4" placeholder="legajo">
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="exampleInputuname3" class="control-label">Interno</label>
+                            <div class="input-group">
+
+                                <input type="text" formControlName="interno" class="form-control" id="exampleInputuname4" placeholder="Interno">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                            <label for="exampleInputuname3" class="control-label">Contraseña</label>
+                            <div class="input-group">
+                                <div class="input-group-addon"><i class="ti-lock"></i></div>
+                                <input type="text" formControlName="passwd" class="form-control" id="exampleInputuname5" placeholder="Contraseña">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="exampleInputuname3" class="control-label">Confirmar Contraseña</label>
+                            <div class="input-group">
+                                <div class="input-group-addon"><i class="ti-lock"></i></div>
+                                <input type="text" formControlName="passwd" class="form-control" id="exampleInputuname4" placeholder="Coinfirmar Contraseña">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                            <label for="exampleInputuname3" class="control-label">Centro de Costo</label>
+                            <div class="input-group">
+                                <input type="text" formControlName="centroCosto" class="form-control" id="exampleInputuname5" placeholder="Contraseña">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="exampleInputuname3" class="control-label">Aplicación</label>
+                            <div class="input-group">
+                                <select class="form-control">
+                            <option value="">Seleccione Aplicacion</option>
+                            <option *ngFor="let app of aplicaciones"
+                                [value]="app.id">
+                                {{ app.descripcion }}
+                            </option>
+                        </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row m-b-0 ">
+                        <div class="offset-sm-3 col-sm-9 ">
+                            <button type="submit " [disabled]="usuarioForm.invalid " class="btn btn-success waves-effect waves-light ">
+                                <i class="fa fa-save "></i>
+                                Guardar
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

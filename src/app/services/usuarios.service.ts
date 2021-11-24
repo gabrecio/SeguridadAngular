@@ -1,8 +1,17 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { UsuarioModel } from '../Models/usuario.model';
-import { map, delay } from 'rxjs/operators'
-import { Observable } from 'rxjs';
+import { HttpClient,HttpParams, HttpHeaders } from '@angular/common/http';
+import { UsuarioModel } from '../models/usuario.model';
+import {tap, map, delay, catchError } from 'rxjs/operators'
+import { Observable, of  } from 'rxjs';
+import { environment } from '../../environments/environment';
+
+
+import { RegisterForm } from '../interfaces/register-form.interface';
+import { LoginForm } from '../interfaces/login-form.interface';
+
+
+const base_url = environment.base_url;
+
 
 @Injectable({
   providedIn: 'root'
@@ -24,17 +33,39 @@ export class UsuariosService {
   constructor(private http: HttpClient) { }
 
  
-  getUsuario(id: string){
+  getUsuario(id: string): Observable<any>{
     return this.http.get(`${this.url}/usuario/${id}`);
   }
 
-  getUsuarios(){
+  getUsuarios(page:number, termino: string){
+
+    let params = new HttpParams({ fromObject: { page: page, app: 'todas', itemsPerPage:20,reverse:false, search:termino,sortBy:''  } });
+
+
+    return this.http.get(`${this.url}/usuario/Search`, {params: params});
+  }
+
+  getUsuarios2(page:number){
+
+    let params = new HttpParams({ fromObject: { page: page, app: 'todas', itemsPerPage:20,reverse:false, search:'',sortBy:''  } });
+
+
+    return this.http.get(`${this.url}/usuario/Search`, {params: params});
+  }
+
+  getUsuarios3(){
     return this.http.get(`${this.url}/usuario/`).pipe(map(this.crearArreglo), delay(1500));
 
   }
 
-  login2(user: any): Observable<any>  {
+  login3(user: any): Observable<any>  {
     return this.http.post(`${this.url}/login`, user);
+  }
+
+  eliminar(id: number): Observable<any>  {
+    const url= `${this.url}/usuario/${id}`;
+    return this.http.delete(url);
+  //  return this.http.delete(`${this.url}/usuario/${id}`);
   }
 
   login(username: string, password: string, codeApp: string): Observable<any> {
@@ -45,6 +76,16 @@ export class UsuariosService {
     }, this.httpOptions);
   }
 
+  login2( formData: LoginForm ) {
+    
+    return this.http.post(`${ base_url }/login`, formData )
+                .pipe(
+                  tap( (resp: any) => {
+                    localStorage.setItem('token', resp.token )
+                  })
+                );
+
+  }
  
   register(user: any): Observable<any> {
     return  this.http.post(`${this.url}/register`, user);
@@ -69,6 +110,19 @@ export class UsuariosService {
       usuarios.push(usuario);
     });
     return usuarios;
+  }
+
+
+  
+  crearUsuario( formData: RegisterForm ) {
+    
+    return this.http.post(`${ base_url }/usuarios`, formData )
+              .pipe(
+                tap( (resp: any) => {
+                  localStorage.setItem('token', resp.token )
+                })
+              )
+
   }
 
 }

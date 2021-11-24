@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 
-import { UserModel } from '../../Models/user.models';
+import { UserModel } from '../../models/user.models';
 import { AuthService } from '../../services/auth.service';
 import Swal from 'sweetalert2';
 
@@ -61,7 +61,7 @@ Swal.fire({
       }
 
       Swal.close();
-      this.router.navigateByUrl('/home');
+      this.router.navigateByUrl('/dashboard');
      
      // this.roles = this.tokenStorage.getUser().roles;
       //this.reloadPage();

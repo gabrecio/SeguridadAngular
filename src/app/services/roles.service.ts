@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient,HttpParams , HttpHeaders } from '@angular/common/http';
-import { RolModel } from '../Models/rol.model';
+import { RolModel } from '../models/rol.model';
 import { map, delay } from 'rxjs/operators'
-import { PageInfoModel } from '../Models/pageInfo.models';
-import { GenericListModel } from '../Models/respuesta.models';
+import { PageInfoModel } from '../models/pageInfo.models';
+import { GenericListModel } from '../models/respuesta.models';
 
 @Injectable({
   providedIn: 'root'
