@@ -28,7 +28,7 @@ const routes: Routes = [
             { path: 'promesas', component: PromesasComponent , data:{titulo:'Promesas'}},          
             { path: 'rxjs', component: RxjsComponent, data:{titulo:'Rxjs'} }, 
             { path: 'usuario/:id', component: UsuarioComponent, data: { titulo: 'ABM Usuario' }},
-            { path: 'aplicacion/:id', component: AplicacionComponent, data: { titulo: 'ABM Aplicacion' }},
+            { path: 'aplicacion/:id/:accion', component: AplicacionComponent, data: { titulo: 'ABM Aplicacion' }},
         ]
     },
 ];

@@ -1,1 +1,57 @@
-<p>aplicacion works!</p>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Aplicaciones</h4>
+                <h6 class="card-subtitle"> {{(accion == 'consultar')?'Consultar información': 'Actualizar información' }}</h6>
+
+                <form autocomplete="off" class="form-horizontal p-t-20" [formGroup]="aplicacionForm" (submit)="guardarAplicacion()">
+                    <div class="form-group row">
+
+                        <div class="col-sm-6">
+                            <label for="Inputuname1" class="control-label">Código</label>
+                            <div class="input-group">
+                                <div class="input-group-addon"><i class="ti-lock"></i></div>
+                                <input type="text" formControlName="codigo" [readonly]="accion != 'nuevo'" class="form-control" id="Inputuname1" placeholder="Código">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="Inputuname2" class="control-label">Descripción</label>
+                            <div class="input-group">
+                                <input type="text" formControlName="descripcion" [readonly]="accion == 'consultar'" class="form-control" id="Inputuname2" placeholder="Descripcion">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                            <label for="Inputuname3" class="control-label">Observaciones</label>
+                            <div class="input-group">
+                                <input type="text" formControlName="observaciones" [readonly]="accion == 'consultar'" class="form-control" id="Inputuname3" placeholder="Observaciones">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="exampleInputuname3" class="control-label">Estado</label>
+                            <div class="input-group">
+                                <select class="form-control" [value]='estado' [disabled]="accion == 'consultar'">                                   
+                                    <option *ngFor="let est of estados"
+                                        [value]="est.id">
+                                        {{ est.descripcion }}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row m-b-0 ">
+                        <div class="col-sm-12 text-right">
+                            <button type="submit" [hidden]="accion == 'consultar'" [disabled]="aplicacionForm.invalid " class="btn btn-success waves-effect waves-light ">
+                              <!--   <i class="fa fa-save "></i> -->
+                                Guardar
+                            </button>
+                            <button type="button" (click)="cancel()" class="btn btn-default">Cancelar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

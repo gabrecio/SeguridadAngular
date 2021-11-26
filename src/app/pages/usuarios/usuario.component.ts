@@ -7,6 +7,8 @@ import { delay } from 'rxjs/operators';
 import Swal from 'sweetalert2';
 import { AplicacionModel } from 'src/app/models/aplicacion.models';
 import { AplicacionesService } from '../../services/aplicaciones.service';
+import { AreasService } from 'src/app/services/areas.service';
+import { GenListaModel } from '../../models/genlista.models';
 
 @Component({
   selector: 'app-usuario',
@@ -19,11 +21,13 @@ export class UsuarioComponent implements OnInit {
 
   public usuarioForm: FormGroup;
   public aplicaciones: AplicacionModel[] = [];
+  public areas: GenListaModel[] = [];
 
  public  usuario :UsuarioModel;
  public aplicacion: AplicacionModel;
+ public area: GenListaModel;
 
-  constructor( private fb: FormBuilder, private usuariosService: UsuariosService,  private aplicacionesService: AplicacionesService,
+  constructor( private fb: FormBuilder, private usuariosService: UsuariosService,  private aplicacionesService: AplicacionesService,private areaService: AreasService,
      private router: Router,  private activatedRoute: ActivatedRoute) { 
 
   }
@@ -32,6 +36,7 @@ export class UsuarioComponent implements OnInit {
   
 
     this.usuarioForm = this.fb.group({
+      id: ['', Validators.required],
       nombre: ['', [Validators.required, Validators.minLength(5)]],
       apellido: ['', Validators.required],
       username: ['', Validators.required],
@@ -41,14 +46,16 @@ export class UsuarioComponent implements OnInit {
       legajo: ['', Validators.required],
       interno: ['', Validators.required],
       passwd: ['', Validators.required],
+      passwd2: ['', Validators.required],
       rol: [null, Validators.required],
       centroCosto: [null, Validators.required],
-      roles: [null, Validators.required],
+     // roles: [null, Validators.required],
     });
     this.activatedRoute.params
     .subscribe( ({ id }) => this.cargarUsuario( id ) );
 
     this.cargarAplicaciones();
+    this.cargarAreas();
     /*this.usuarioForm.get('hospital').valueChanges
         .subscribe( hospitalId => {
           this.hospitalSeleccionado = this.hospitales.find( h => h._id === hospitalId );
@@ -100,14 +107,21 @@ export class UsuarioComponent implements OnInit {
           return this.router.navigateByUrl(`/dashboard/usuarios`);
         }
 
-       // const { nombre, hospital:{ _id } } = medico; 
+       
         this.usuario= user;
        console.log(user);
-      //  this.usuarioForm.setValue({ nombre, hospital: _id });
+        this.usuarioForm.setValue({   id:user.id,  nombre:user.nombre,  apellido: user.apellido,
+        username: user.username, mail:user.mail, activo: user.activo, documento: user.documento, 
+        legajo: user.legajo, interno: user.interno, passwd: 123456, passwd2: 123456, rol: user.rol, centroCosto: user.centroCosto });
          return '';
       });
 
   }
+
+  
+cancel(){
+  return this.router.navigateByUrl(`/dashboard/usuarios`);
+}
 
   cargarAplicaciones() {
 
@@ -117,4 +131,13 @@ export class UsuarioComponent implements OnInit {
       })
 
   }
+  cargarAreas() {
+
+    this.areaService.getAreasAgil()
+      .subscribe( (areas: GenListaModel[]) => {
+        this.areas = areas;
+      })
+
+  }
+
 }

@@ -8,28 +8,28 @@
 
                 <form autocomplete="off" class="form-horizontal p-t-20" [formGroup]="usuarioForm" (submit)="guardarUsuario()">
                     <div class="form-group row">
-                        <!--  <label for="exampleInputuname3" class="col-sm-3 control-label">Apellido</label> -->
+
                         <div class="col-sm-6">
-                            <label for="exampleInputuname3" class="control-label">Apellido</label>
+                            <label for="Inputuname1" class="control-label">Apellido</label>
                             <div class="input-group">
                                 <div class="input-group-addon"><i class="ti-user"></i></div>
-                                <input type="text" formControlName="apellido" class="form-control" id="exampleInputuname3" placeholder="Apellido">
+                                <input type="text" formControlName="apellido" class="form-control" id="Inputuname1" placeholder="Apellido">
                             </div>
                         </div>
                         <div class="col-sm-6">
-                            <label for="exampleInputuname3" class="control-label">Nombre</label>
+                            <label for="Inputuname2" class="control-label">Nombre</label>
                             <div class="input-group">
                                 <div class="input-group-addon"><i class="ti-user"></i></div>
-                                <input type="text" formControlName="nombre" class="form-control" id="exampleInputuname2" placeholder="Nombre">
+                                <input type="text" formControlName="nombre" class="form-control" id="Inputuname2" placeholder="Nombre">
                             </div>
                         </div>
                     </div>
                     <div class="form-group row">
                         <div class="col-sm-6">
-                            <label for="exampleInputuname3" class="control-label">UserName</label>
+                            <label for="Inputuname3" class="control-label">UserName</label>
                             <div class="input-group">
                                 <div class="input-group-addon"><i class="ti-user"></i></div>
-                                <input type="text" formControlName="username" class="form-control" id="exampleInputuname5" placeholder="nombre de usuario">
+                                <input type="text" formControlName="username" class="form-control" id="Inputuname3" placeholder="nombre de usuario">
                             </div>
                         </div>
                         <div class="col-sm-6">
@@ -49,62 +49,69 @@
                             </div>
                         </div>
                         <div class="col-sm-3">
-                            <label for="exampleInputuname3" class="control-label">Legajo</label>
+                            <label for="Inputuname6" class="control-label">Legajo</label>
                             <div class="input-group">
 
-                                <input type="text" formControlName="legajo" class="form-control" id="exampleInputuname4" placeholder="legajo">
+                                <input type="text" formControlName="legajo" class="form-control" id="Inputuname6" placeholder="legajo">
                             </div>
                         </div>
                         <div class="col-sm-3">
-                            <label for="exampleInputuname3" class="control-label">Interno</label>
+                            <label for="Inputuname7" class="control-label">Interno</label>
                             <div class="input-group">
 
-                                <input type="text" formControlName="interno" class="form-control" id="exampleInputuname4" placeholder="Interno">
+                                <input type="text" formControlName="interno" class="form-control" id="Inputuname7" placeholder="Interno">
                             </div>
                         </div>
                     </div>
                     <div class="form-group row">
                         <div class="col-sm-6">
-                            <label for="exampleInputuname3" class="control-label">Contraseña</label>
+                            <label for="Inputuname8" class="control-label">Contraseña</label>
                             <div class="input-group">
                                 <div class="input-group-addon"><i class="ti-lock"></i></div>
-                                <input type="text" formControlName="passwd" class="form-control" id="exampleInputuname5" placeholder="Contraseña">
+                                <input type="password" formControlName="passwd" class="form-control" id="Inputuname8" placeholder="Contraseña">
                             </div>
                         </div>
                         <div class="col-sm-6">
-                            <label for="exampleInputuname3" class="control-label">Confirmar Contraseña</label>
+                            <label for="Inputuname9" class="control-label">Confirmar Contraseña</label>
                             <div class="input-group">
                                 <div class="input-group-addon"><i class="ti-lock"></i></div>
-                                <input type="text" formControlName="passwd" class="form-control" id="exampleInputuname4" placeholder="Coinfirmar Contraseña">
+                                <input type="password" formControlName="passwd2" class="form-control" id="Inputuname9" placeholder="Confirmar Contraseña">
                             </div>
                         </div>
                     </div>
                     <div class="form-group row">
                         <div class="col-sm-6">
-                            <label for="exampleInputuname3" class="control-label">Centro de Costo</label>
+                            <label for="Inputuname10" class="control-label">Area</label>
                             <div class="input-group">
-                                <input type="text" formControlName="centroCosto" class="form-control" id="exampleInputuname5" placeholder="Contraseña">
+                                <select class="form-control" formControlName="centroCosto">
+                                    <option value="">Seleccione area</option>
+                                    <option *ngFor="let area of areas"
+                                        [value]="area.id">
+                                        {{ area.descripcion }}
+                                    </option>
+                                </select>
                             </div>
                         </div>
                         <div class="col-sm-6">
-                            <label for="exampleInputuname3" class="control-label">Aplicación</label>
+                            <label for="Inputuname111" class="control-label">Aplicación</label>
                             <div class="input-group">
                                 <select class="form-control">
-                            <option value="">Seleccione Aplicacion</option>
-                            <option *ngFor="let app of aplicaciones"
-                                [value]="app.id">
-                                {{ app.descripcion }}
-                            </option>
-                        </select>
+                                    <option value="">Seleccione Aplicacion</option>
+                                    <option *ngFor="let app of aplicaciones"
+                                        [value]="app.id">
+                                        {{ app.descripcion }}
+                                    </option>
+                                </select>
                             </div>
                         </div>
                     </div>
                     <div class="form-group row m-b-0 ">
-                        <div class="offset-sm-3 col-sm-9 ">
+                        <div class="offset-sm-3 col-sm-12 text-right">
                             <button type="submit " [disabled]="usuarioForm.invalid " class="btn btn-success waves-effect waves-light ">
                                 <i class="fa fa-save "></i>
                                 Guardar
                             </button>
+                            <button type="button" (click)="cancel()" class="btn btn-default">Cancelar</button>
                         </div>
                     </div>
                 </form>

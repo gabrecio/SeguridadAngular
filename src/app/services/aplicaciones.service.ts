@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AplicacionModel } from '../models/aplicacion.models';
 import { map, delay } from 'rxjs/operators'
+import { Observable } from 'rxjs';
 
 
 
@@ -13,7 +14,7 @@ export class AplicacionesService {
   constructor(private http: HttpClient) { }
 
 
-  getAplicacion(id: string){
+  getAplicacion(id: string): Observable<any>{
     return this.http.get(`${this.url}/aplicacion/${id}`);
   }
 
@@ -31,8 +32,7 @@ export class AplicacionesService {
     Object.entries(objeto).forEach(([key, value]) => {
 
       const rol: AplicacionModel= value;
-      //const heroe: HeroeModel= heroesObj[value];
-      rol.id = +key; //+ para hacer convert a number
+      //const heroe: HeroeModel= heroesObj[value];     
       aplicaciones.push(rol);
     });
     return aplicaciones;

@@ -1,15 +1,19 @@
-export class AplicacionModel{
+export class GenListaModel{
     id: number;    
     codigo: string;    
+    nombre:string;
     descripcion:string;
+    centroCostoPadreId:number;
+    manejaPresupuesto:boolean;
     activo:boolean;
-    observaciones:string;
-
     constructor(){
         this.id=0;
         this.codigo="";        
         this.descripcion="";
+        this.nombre="";
+        this.centroCostoPadreId=0;
+        this.manejaPresupuesto=false;
         this.activo=true;
-        this.observaciones="";
     }
 }
+

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { RolesService } from 'src/app/services/roles.service';
 import Swal from 'sweetalert2';
 import { AplicacionModel } from '../../models/aplicacion.models';
@@ -14,7 +15,7 @@ export class AplicacionesComponent implements OnInit {
   aplicaciones: AplicacionModel[]= [];
   cargando=false;
 
-  constructor(private aplicacionService: AplicacionesService, private rolService: RolesService) { }
+  constructor(private aplicacionService: AplicacionesService, private rolService: RolesService, private router: Router,  private activatedRoute: ActivatedRoute) { }
 
  
 
@@ -26,7 +27,10 @@ export class AplicacionesComponent implements OnInit {
       this.cargando=false;
     } );
   }
-
+  btnNuevo= function () {
+    this.router.navigateByUrl('/dashboard/aplicacion/0/nuevo');
+    // [routerLink]="[ '/dashboard', 'aplicacion', 0, 'nuevo'] "
+};
 
 
   borrarAplicacion(app: AplicacionModel, i: number){
