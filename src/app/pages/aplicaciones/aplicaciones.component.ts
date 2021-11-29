@@ -15,7 +15,7 @@ export class AplicacionesComponent implements OnInit {
   aplicaciones: AplicacionModel[]= [];
   cargando=false;
 
-  constructor(private aplicacionService: AplicacionesService, private rolService: RolesService, private router: Router,  private activatedRoute: ActivatedRoute) { }
+  constructor(private aplicacionService: AplicacionesService,  private router: Router,  private activatedRoute: ActivatedRoute) { }
 
  
 
@@ -43,7 +43,15 @@ export class AplicacionesComponent implements OnInit {
       showCancelButton:true
     }).then(resp=>{
       if(resp.value){
-        this.aplicaciones.splice(i,1);       
+        this.aplicacionService.eliminar(app.id).subscribe( (resp: any) => {
+          Swal.fire('Eliminado', `eliminado correctamente`, 'success');
+          this.aplicaciones.splice(i,1);       
+          //this.router.navigateByUrl(`/dashboard/aplicaciones`);
+      }, err => {
+        Swal.fire('Elimina aplicación', `error al intentar eliminar una aplicación`, 'error');
+        console.log("Error: "+ JSON.stringify(err));
+        });
+        
       }
     });
 

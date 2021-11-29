@@ -12,14 +12,16 @@
                             <label for="Inputuname1" class="control-label">Código</label>
                             <div class="input-group">
                                 <div class="input-group-addon"><i class="ti-lock"></i></div>
-                                <input type="text" formControlName="codigo" [readonly]="accion != 'nuevo'" class="form-control" id="Inputuname1" placeholder="Código">
+                                <input type="text" formControlName="codigo" [readonly]="accion != 'nuevo'" class="form-control" id="Inputuname1" [class.is-invalid]="codigoNoValido" placeholder="Código">
                             </div>
+                            <small *ngIf="codigoNoValido" class="text-danger">Longitud 5 digitos</small>
                         </div>
                         <div class="col-sm-6">
                             <label for="Inputuname2" class="control-label">Descripción</label>
                             <div class="input-group">
-                                <input type="text" formControlName="descripcion" [readonly]="accion == 'consultar'" class="form-control" id="Inputuname2" placeholder="Descripcion">
+                                <input type="text" formControlName="descripcion" [readonly]="accion == 'consultar'" class="form-control" id="Inputuname2" [class.is-invalid]="descripcionNoValido" placeholder="Descripcion">
                             </div>
+                            <small *ngIf="descripcionNoValido" class="text-danger">Descripción obligatoria, máximo 50 caracteres</small>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -32,9 +34,8 @@
                         <div class="col-sm-6">
                             <label for="exampleInputuname3" class="control-label">Estado</label>
                             <div class="input-group">
-                                <select class="form-control" [value]='estado' [disabled]="accion == 'consultar'">                                   
-                                    <option *ngFor="let est of estados"
-                                        [value]="est.id">
+                                <select #selectElem class="form-control" [value]="estado" (change)="capturarCambio(selectElem.value)" [disabled]="accion == 'consultar'">                                   
+                                    <option *ngFor="let est of estados" [value]="est.id">
                                         {{ est.descripcion }}
                                     </option>
                                 </select>

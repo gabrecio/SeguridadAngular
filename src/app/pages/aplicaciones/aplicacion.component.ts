@@ -33,16 +33,16 @@ export class AplicacionComponent implements OnInit {
 
 
     this.aplicacionForm = this.fb.group({
-      id: ['', Validators.required],
-      codigo: ['', [Validators.required, Validators.minLength(5)]],
-      descripcion: ['', Validators.required],     
+      id: [0, Validators.required],
+      codigo: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(5)]],
+      descripcion: ['', [Validators.required, Validators.maxLength(50)]],     
       observaciones: [''],     
-      activo: [{id: 1, codigo: 'activo' ,descripcion:'Activo', descripcionCompleta:''}, Validators.required],     
+      activo: [true, Validators.required],     
     });
    
 
     this.estados = [{id: 1, codigo: 'activo' ,descripcion:'Activo', descripcionCompleta:''},{id: 0, codigo: 'inactivo' ,descripcion:'Inactivo', descripcionCompleta:''}];
-    this.estado=1;
+    //this.estado=this.estados[0].id;
     this.activatedRoute.params
     .subscribe( ({ id, accion }) =>{
      this._id = id;
@@ -51,40 +51,51 @@ export class AplicacionComponent implements OnInit {
    // this.cargarAplicaciones();
    // this.cargarAreas();
    
+  }
 
-  
+
+
+  get codigoNoValido(){
+    return this.aplicacionForm.get('codigo')?.invalid && this.aplicacionForm.get('codigo')?.touched;
+  }
+  get descripcionNoValido(){
+    return this.aplicacionForm.get('descripcion')?.invalid && this.aplicacionForm.get('descripcion')?.touched;
   }
 
   guardarAplicacion(): void{
 
-    const { codigo } = this.aplicacionForm.controls['codigo'].value;
+    var codigo = this.aplicacionForm.controls['codigo'].value;
+    this.aplicacionForm.controls['activo'].setValue((this.estado==1)?true:false);
 
     if ( this._id != 0 ) {
-      // actualizar
-  /*    const data = {
-        ...this.usuarioForm.value,
-        _id: this.usuarioSeleccionado._id
-      }*/
-      /* this.aplicacionesService.actualizar( data )
-        .subscribe( resp => {*/
+      //actualizar
+       this.aplicacionesService.actualizar(  this.aplicacionForm.value )
+        .subscribe( resp => {
           Swal.fire('Actualizado', `${ codigo } actualizado correctamente`, 'success');
-      //  })
+          this.router.navigateByUrl(`/dashboard/aplicaciones`);
+        }, err => {
+          console.log("Error: "+ JSON.stringify(err));
+          });
 
     } else {
-      // crear
-      
-  /*   this.aplicacionesService.crear( this.aplicacionForm.value )
-          .subscribe( (resp: any) => {*/
+      // crear      
+
+     this.aplicacionesService.crear( this.aplicacionForm.value )
+          .subscribe( (resp: any) => {
             Swal.fire('Creado', `${ codigo } creado correctamente`, 'success');
             this.router.navigateByUrl(`/dashboard/aplicaciones`);
-        //})
+        }, err => {
+          console.log("Error: "+ JSON.stringify(err));
+          });
+
     }
   }
 
 
   cargarAplicacion(id: string) {
 
-    if (  id === 'nuevo' ) {
+    if (  id == '0' ) {
+      //this.aplicacionForm.controls['id'].setValue(0);
       return;
     }
     
@@ -99,8 +110,8 @@ export class AplicacionComponent implements OnInit {
         }
        
         this.aplicacion= app;
-        console.log(app);
-        this.aplicacionForm.setValue({ id:app.id,  codigo:app.codigo,  descripcion: app.descripcion, observaciones: app.observaciones, activo: (app.activo) ? this.estados[0]:this.estados[1] });
+        //console.log(app);
+        this.aplicacionForm.setValue({ id:app.id,  codigo:app.codigo,  descripcion: app.descripcion, observaciones: app.observaciones, activo: app.activo });
         this.estado= (app.activo) ? this.estados[0].id:this.estados[1].id;
          return '';
       });
@@ -109,4 +120,9 @@ export class AplicacionComponent implements OnInit {
 cancel(){
   return this.router.navigateByUrl(`/dashboard/aplicaciones`);
 }
+
+capturarCambio(esta: string) {
+  this.estado = +esta;
+}
+
 }
