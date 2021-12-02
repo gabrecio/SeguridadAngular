@@ -1,9 +1,12 @@
 <div class="row">
-    <div class="col text-start">
+    <div class="col-sm-3 text-start">
         <h3>Roles</h3>
     </div>
-    <div class="col text-end">
-        <button routerLink="/rol/nuevo" class="btn btn-primary">
+    <div class="col-sm-6">
+        <input type="text" class="form-control" placeholder="Buscar rol..." #txtBuscarRol/>
+    </div>
+    <div class="col-sm-3  text-right">
+        <button (click)="btnNuevo();" class="btn btn-success">
             <i class="fa fa-plus"></i> Agregar
         </button></div>
 </div>
@@ -26,18 +29,15 @@
             <td>{{rol.nombre}}</td>
             <td>{{rol.observaciones}}</td>
             <td>
-                <div class="dropdown text-end ">
-                    <!--    <button class="btn btn-secondary btn-sm dropdown-toggle " type="button " id="dropdownMenuButton1 " data-bs-toggle="dropdown " aria-expanded="false ">
-                    <i class="fa fa-cog "></i> 
-                    </button>-->
-                    <a class="dropdown-toggle px-2 text-dark" href="#" id="dropdownMenuGrillaRoles1" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fa fa-cog"></i>
-                    </a>
-                    <ul class="dropdown-menu " aria-labelledby="dropdownMenuButton1 ">
-                        <li><a class="dropdown-item " [routerLink]="[ '/usuario', rol.id] "><i class="fa fa-search-plus "></i> Consultar</a></li>
-                        <li><a class="dropdown-item " [routerLink]="[ '/usuario', rol.id] "><i class="fa fa-edit "></i> Editar</a></li>
-                        <li><a class="dropdown-item " (click)="borrarRol(rol,i) " [routerLink]="[ '/roles'] " href="# "><i class="fa fa-times-circle text-danger " ></i> Eliminar</a></li>
-                    </ul>
+                <div class="dropdown">
+                    <button class="btn btn-secondary  btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-cog "></i>
+                </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a data-toggle="tooltip" a-original-title="Borrar" cls="cursor" class="cursor dropdown-item" (click)="borrarRol(rol,i) "><i class="fa fa-times-circle text-danger " ></i> Eliminar</a>
+                        <a class="dropdown-item" [routerLink]="['/dashboard','rol', rol.id , 'consultar']"><i class="fa fa-search-plus " ></i> Consultar</a>
+                        <a class="dropdown-item " [routerLink]="[ '/dashboard', 'rol', rol.id, 'editar'] "><i class=" fa fa-edit " ></i> Editar</a>
+                    </div>
                 </div>
             </td>
         </tr>

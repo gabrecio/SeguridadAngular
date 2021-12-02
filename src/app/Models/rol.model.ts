@@ -1,13 +1,15 @@
 export class RolModel{
     id: number;    
-    nombre: string;    
-    descripcion:string;
+    nombre: string;       
     observaciones: string;
+    activo:boolean;
+    aplicacion:object
 
     constructor(){
         this.id=0;
         this.nombre="";        
-        this.descripcion="";
+        this.activo=true;
         this.observaciones="";
+        this.aplicacion= null;
     }
 }

@@ -12,6 +12,7 @@ import { AuthGuard } from '../guards/auth.guard';
 import { UsuarioComponent } from './usuarios/usuario.component';
 import { AplicacionesComponent } from './aplicaciones/aplicaciones.component';
 import { AplicacionComponent } from './aplicaciones/aplicacion.component';
+import { RolComponent } from './roles/rol.component';
 
 
 const routes: Routes = [
@@ -29,6 +30,7 @@ const routes: Routes = [
             { path: 'rxjs', component: RxjsComponent, data:{titulo:'Rxjs'} }, 
             { path: 'usuario/:id', component: UsuarioComponent, data: { titulo: 'ABM Usuario' }},
             { path: 'aplicacion/:id/:accion', component: AplicacionComponent, data: { titulo: 'ABM Aplicacion' }},
+            { path: 'rol/:id/:accion', component: RolComponent, data: { titulo: 'ABM Rol' }},
         ]
     },
 ];

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { RolesService } from 'src/app/services/roles.service';
 import Swal from 'sweetalert2';
@@ -12,6 +12,7 @@ import { AplicacionesService } from '../../services/aplicaciones.service';
 })
 export class AplicacionesComponent implements OnInit {
 
+  @ViewChild('txtBuscarAplicacion', { static: true }) txtBuscarAplicacion: ElementRef;
   aplicaciones: AplicacionModel[]= [];
   cargando=false;
 
@@ -27,6 +28,15 @@ export class AplicacionesComponent implements OnInit {
       this.cargando=false;
     } );
   }
+
+
+  busquedaTodos() {
+    let event = new KeyboardEvent('keyup', {
+       'bubbles': true
+    });
+    this.txtBuscarAplicacion.nativeElement.dispatchEvent(event);
+  }
+
   btnNuevo= function () {
     this.router.navigateByUrl('/dashboard/aplicacion/0/nuevo');
     // [routerLink]="[ '/dashboard', 'aplicacion', 0, 'nuevo'] "

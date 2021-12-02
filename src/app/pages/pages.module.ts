@@ -14,7 +14,8 @@ import { PromesasComponent } from './promesas/promesas.component';
 import { RxjsComponent } from './rxjs/rxjs.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { UsuarioComponent } from './usuarios/usuario.component';
-import { AplicacionComponent } from './aplicaciones/aplicacion.component'; 
+import { AplicacionComponent } from './aplicaciones/aplicacion.component';
+import { RolComponent } from './roles/rol.component'; 
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { AplicacionComponent } from './aplicaciones/aplicacion.component';
     RxjsComponent,
     UsuarioComponent,
     AplicacionComponent,
+    RolComponent,
   ],
   exports: [
     DashboardComponent,
