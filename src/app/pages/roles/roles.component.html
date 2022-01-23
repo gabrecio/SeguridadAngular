@@ -1,11 +1,20 @@
 <div class="row">
-    <div class="col-sm-3 text-start">
+    <div class="col-sm-2 text-start">
         <h3>Roles</h3>
     </div>
-    <div class="col-sm-6">
+    <div class="col-sm-5">
         <input type="text" class="form-control" placeholder="Buscar rol..." #txtBuscarRol/>
     </div>
-    <div class="col-sm-3  text-right">
+    <div class="col-sm-3">
+        <select #selectElem class="form-control" [value]="aplicacion" (change)="CambioApp(selectElem.value, txtBuscarRol.value)">           
+            <option value="">Todas</option>
+            <option *ngFor="let app of aplicaciones"
+                [value]="app.codigo">
+                {{ app.descripcion }}
+            </option>
+        </select>
+    </div>
+    <div class="col-sm-2  text-right">
         <button (click)="btnNuevo();" class="btn btn-success">
             <i class="fa fa-plus"></i> Agregar
         </button></div>
@@ -18,6 +27,7 @@
             <th>Códgo</th>
             <th>Nombre</th>
             <th>Descripcion</th>
+            <th>Aplicación</th>
             <th>Acciones</th>
         </tr>
     </thead>
@@ -28,6 +38,7 @@
             <td>{{rol.id}}</td>
             <td>{{rol.nombre}}</td>
             <td>{{rol.observaciones}}</td>
+            <td>{{rol.aplicacion.codigo}}</td>
             <td>
                 <div class="dropdown">
                     <button class="btn btn-secondary  btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

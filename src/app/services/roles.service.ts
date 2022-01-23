@@ -29,10 +29,10 @@ export class RolesService {
     return this.http.get(`${base_url}/rol/${id}`);
   }
 
-  getRoles3(page:number){
+  getRoles3(page:number, aplicacion: string){
    //string aplicacion,  int itemsPerPage, int page, bool reverse, string search, string sortBy
     let params = new HttpParams();
-    params = params.append('aplicacion', "");
+    params = params.append('aplicacion', aplicacion);
     params = params.append('page', page);
     params = params.append('itemsPerPage', 20);
     params = params.append('reverse', false);
@@ -43,20 +43,14 @@ export class RolesService {
     
    // return this.http.get(`${this.url}/rol/Search`, {params: params}).pipe(map(this.parseResult), delay(1500));
     return this.http.get(`${base_url}/rol/Search`, {params: params});
-    /*
     
-    (resp:GenericListModel) => {
-      let roles: RolModel[]=[];
-      roles =  resp.lista; 
-      return roles;
-  } );
   
-  */
+  
   }
 
-  getRoles(page:number, termino: string){
+  getRoles(page:number, termino: string, aplicacion: string){
 
-    let params = new HttpParams({ fromObject: { page: page, app: 'todas', itemsPerPage:20,reverse:false, search:termino,sortBy:''  } });
+    let params = new HttpParams({ fromObject: { page: page, aplicacion: aplicacion, itemsPerPage:20,reverse:false, search:termino,sortBy:''  } });
 
 
     return this.http.get(`${base_url}/rol/Search`, {params: params});
@@ -101,7 +95,17 @@ export class RolesService {
     const url = `${ base_url }/rol/${ id }`;
     return this.http.delete( url,  {headers:this.headers} );
 }
+rolPermissionByApp( appId: number ) {    
+   
+  const url = `${ base_url }/rol'RolPermissionByApp/${ appId }`;  
+  return this.http.get(url);
+}
 
+getRolPermissions( rolId: number ) {    
 
+  const url = `${ base_url }/rol'RolPermission/${ rolId }`;  
+  return this.http.get(url);
+
+}
 
 }

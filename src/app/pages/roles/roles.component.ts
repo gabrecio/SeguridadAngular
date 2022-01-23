@@ -6,29 +6,32 @@ import { RolModel } from '../../models/rol.model';
 import { RolesService } from '../../services/roles.service';
 import { GenericListModel } from '../../models/respuesta.models';
 import { Router, ActivatedRoute } from '@angular/router';
+import { AplicacionModel } from 'src/app/models/aplicacion.models';
+import { AplicacionesService } from '../../services/aplicaciones.service';
 
 
 @Component({
   selector: 'app-roles',
   templateUrl: './roles.component.html',
-  styleUrls: ['./roles.component.css']
+  styleUrls: []
 })
 export class RolesComponent implements OnInit {
 
   @ViewChild('txtBuscarRol', { static: true }) txtBuscarRol: ElementRef;
-  isSearching: boolean;
+  //isSearching: boolean;
   roles: RolModel[]= [];
   cargando=false;
   page:number=1;
   pageSize:number=20;
   totalItems:number=0;
-
+  public aplicaciones: AplicacionModel[] = [];
+  public aplicacion: string;
   
-  constructor(private rolesService: RolesService,  private router: Router,  private activatedRoute: ActivatedRoute) { }
+  constructor(private rolesService: RolesService, private aplicacionesService: AplicacionesService,  private router: Router,  private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
 
-   // this.doSearch();
+    this.cargarAplicaciones();
 
    this.cargando=true;
     
@@ -50,16 +53,16 @@ export class RolesComponent implements OnInit {
      // subscription for response
    ).subscribe((text: string) => {
 
-     this.isSearching = true;
+     this.cargando = true;
 
      this.doSearch(text).subscribe((resp: GenericListModel) => {
        console.log('resp', resp);
-       this.isSearching = false;
+       this.cargando = false;
        this.roles = resp.lista;         
        this.totalItems = resp.total;
        this.cargando=false;
      }, (err) => {
-       this.isSearching = false;
+       this.cargando = false;
        console.log('error', err);
      });
 
@@ -97,20 +100,40 @@ export class RolesComponent implements OnInit {
 }
 pageChange(){
   this.busquedaTodos();
-  //this.doSearch();
 }
 
-doSearch2(){
-  this.cargando=true;
-  this.rolesService.getRoles3(this.page).subscribe((resp: GenericListModel) => {
-    this.roles = resp.lista;  
-    this.totalItems = resp.total;
-    this.cargando=false;
-  } );
-}
 doSearch(termino : string){
   
- return this.rolesService.getRoles(this.page,termino);
+  if(!this.aplicacion)
+    this.aplicacion= '';
+ return this.rolesService.getRoles(this.page,termino,this.aplicacion);
+
+}
+
+CambioApp(app: string,termino : string) {
+  this.aplicacion = app;
+  this.cargando = true;
+  this.doSearch(termino).subscribe((resp: GenericListModel) => {
+    console.log('resp', resp);
+    this.cargando = false;
+    this.roles = resp.lista;         
+    this.totalItems = resp.total;
+    this.cargando=false;
+  }, (err) => {
+    this.cargando = false;
+    console.log('error', err);
+  });
+ 
+ 
+}
+
+
+cargarAplicaciones() {
+
+  this.aplicacionesService.getAplicaciones()
+    .subscribe( (aplicaciones: AplicacionModel[]) => {
+      this.aplicaciones = aplicaciones;
+    })
 
 }
 

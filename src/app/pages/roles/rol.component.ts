@@ -6,6 +6,10 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { GenListaModel } from 'src/app/models/genlista.models';
 import { RolesService } from '../../services/roles.service';
 import { RolModel } from 'src/app/models/rol.model';
+import { AplicacionModel } from '../../models/aplicacion.models';
+import { AplicacionesService } from 'src/app/services/aplicaciones.service';
+import { PermisosService } from '../../services/permisos.service';
+import { PermisosModel } from 'src/app/models/permiso.models';
 
 @Component({
   selector: 'app-rol',
@@ -17,49 +21,53 @@ export class RolComponent implements OnInit {
  
   public rolForm: FormGroup;
   public roles: RolModel[] = [];
- public rol: RolModel;
- public estados: GenListaModel[] = [];
- public estado: number;
- public _id: number;
- public accion: string;
-
-  constructor( private fb: FormBuilder,  private rolesService: RolesService,
-     private router: Router,  private activatedRoute: ActivatedRoute) { 
+  public rol: RolModel;
+  public aplicaciones: AplicacionModel[] = [];
+  public aplicacion: number;
+  public estados: GenListaModel[] = [];
+  public estado: number;
+  public _id: number;
+  public accion: string;
+  public permisos = [];
+  public selTodos=false;
+  
+  constructor( private fb: FormBuilder,  private rolesService: RolesService, private aplicacionesService: AplicacionesService, 
+    private permisosService: PermisosService, private router: Router,  private activatedRoute: ActivatedRoute) { 
 
   }
 
   ngOnInit(): void {
     this.rolForm = this.fb.group({
       id: [0, Validators.required],
-      nombre: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(5)]],      
+      nombre: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],      
       observaciones: [''],     
       activo: [true, Validators.required],     
-      aplicacion:[null,Validators.required]
+      aplicacion:[null,Validators.required],    
+      fechaAlta: [null], 
+      permisos: [null]
     });
-   
+    this.cargarAplicaciones();
 
-    this.estados = [{id: 1, codigo: 'activo' ,descripcion:'Activo', descripcionCompleta:''},{id: 0, codigo: 'inactivo' ,descripcion:'Inactivo', descripcionCompleta:''}];
-    //this.estado=this.estados[0].id;
-    this.activatedRoute.params
+    this.estados = [{id: 1, codigo: 'activo' ,descripcion:'Activo', descripcionCompleta:''},{id: 0, codigo: 'inactivo' ,descripcion:'Inactivo', descripcionCompleta:''}];    
+    
+   /*  this.activatedRoute.params
     .subscribe( ({ id, accion }) =>{
      this._id = id;
      this.accion = accion;
-     this.cargarRol( id ) });
+     this.cargarRol( id ) }); */
+
   }
 
 
   get nombreNoValido(){
-    return this.rolForm.get('codigo')?.invalid && this.rolForm.get('codigo')?.touched;
+    return this.rolForm.get('nombre')?.invalid && this.rolForm.get('nombre')?.touched;
   }
-/*   get descripcionNoValido(){
-    return this.rolForm.get('descripcion')?.invalid && this.rolForm.get('descripcion')?.touched;
-  } */
 
   guardarRol(): void{
 
-    var codigo = this.rolForm.controls['codigo'].value;
+    var codigo = this.rolForm.controls['nombre'].value;
     this.rolForm.controls['activo'].setValue((this.estado==1)?true:false);
-
+    this.rolForm.controls['aplicacion'].setValue(this.aplicaciones[this.aplicacion]);
     if ( this._id != 0 ) {
       //actualizar
        this.rolesService.actualizar(  this.rolForm.value )
@@ -104,8 +112,11 @@ export class RolComponent implements OnInit {
        
         this.rol= rol;
         //console.log(app);
-        this.rolForm.setValue({ id:rol.id,  nombre:rol.nombre,  observaciones: rol.observaciones, activo: rol.activo });
+        this.rolForm.setValue({ id:rol.id, nombre:rol.nombre,  observaciones: rol.observaciones, activo: rol.activo, aplicacion: rol.aplicacion, fechaAlta: rol.fechaAlta, permisos:null });
         this.estado= (rol.activo) ? this.estados[0].id:this.estados[1].id;
+        this.aplicacion= rol.aplicacion.id;
+        this.rolForm.controls['aplicacion'].setValue(this.aplicaciones[rol.aplicacion]);
+        this.CambioApp(rol.aplicacion.id);
          return '';
       });
   }
@@ -118,6 +129,41 @@ capturarCambio(esta: string) {
   this.estado = +esta;
 }
 
+CambioApp(app: string) {
+  this.aplicacion = +app;
+  this.rolForm.controls['aplicacion'].setValue(this.aplicaciones[this.aplicacion]);
 
+this.rolesService.rolPermissionByApp(this.aplicacion).subscribe( (perm: PermisosModel[]) => {
+  this.permisos = perm;
+  })  
+}
+
+cargarAplicaciones() {
+
+  this.aplicacionesService.getAplicaciones()
+    .subscribe( (aplicaciones: AplicacionModel[]) => {
+      this.aplicaciones = aplicaciones;
+      this.activatedRoute.params
+      .subscribe( ({ id, accion }) =>{
+       this._id = id;
+       this.accion = accion;
+       this.cargarRol( id ) });
+    })
+
+}
+
+/*change() {        
+  $scope.permisos.forEach(function(entry) {			
+    entry.operaciones.forEach(function(ope) {				
+      ope.activo =$scope.selTodos;
+    });
+  });
+};*/
+
+getPermisos () {        
+  var rolPerm = this.rolesService.getRolPermissions(this._id).subscribe( (perm: PermisosModel[]) => {
+    this.permisos = perm;
+    })  
+};
 
 }

@@ -14,7 +14,19 @@
                                 <div class="input-group-addon"><i class="ti-lock"></i></div>
                                 <input type="text" formControlName="nombre" [readonly]="accion != 'nuevo'" class="form-control" id="Inputuname1" [class.is-invalid]="nombreNoValido" placeholder="Código">
                             </div>
-                            <small *ngIf="nombreNoValido" class="text-danger">Longitud 5 digitos</small>
+                            <small *ngIf="nombreNoValido" class="text-danger">Obligatorio, minimo 3 caracteres</small>
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="Inputuname111" class="control-label">Aplicación</label>
+                            <div class="input-group">
+                                <select #selectElem class="form-control" [value]="aplicacion" (change)="CambioApp(selectElem.value)" [disabled]="accion == 'consultar'">
+                                    <option value="">Seleccione Aplicacion</option>
+                                    <option *ngFor="let app of aplicaciones"
+                                        [value]="app.id">
+                                        {{ app.descripcion }}
+                                    </option>
+                                </select>
+                            </div>
                         </div>
                         <!--   <div class="col-sm-6">
                             <label for="Inputuname2" class="control-label">Descripción</label>
@@ -42,9 +54,39 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <table *ngIf="permisos.length!=0" class="table table-sm">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Códgo</th>
+                                        <th>Nombre</th>
+                                        <th>Descripcion</th>
+                                        <th>Aplicación</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let per of permisos; let i=index">
+                                        <td>{{ ((page-1) * pageSize) + i+1}}</td>
+                                        <td>{{per.menu}}</td>
+                                        <td>{{per.nombre}}</td>
+                                        <td>{{per.observaciones}}</td>
+                                        <td>{{per.aplicacion.codigo}}</td>
+                                        <td>
+                                            <div class="dropdown">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                     <div class="form-group row m-b-0 ">
                         <div class="col-sm-12 text-right">
-                            <button type="submit" [hidden]="accion == 'consultar'" [disabled]="rolForm.invalid " class="btn btn-success waves-effect waves-light ">
+                            <button type="submit" [hidden]="accion == 'consultar'" [disabled]="rolForm.invalid" class="btn btn-success waves-effect waves-light ">
                               <!--   <i class="fa fa-save "></i> -->
                                 Guardar
                             </button>
